@@ -1,0 +1,23 @@
+services:
+  whoami:
+    image: containous/whoami
+    container_name: whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.docker.network=traefik"
+    networks:
+      - traefik
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+networks:
+  traefik:
+    external: true

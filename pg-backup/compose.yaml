@@ -1,0 +1,23 @@
+services:
+  pg-backup:
+    image: prodrigestivill/postgres-backup-local
+    container_name: pg-backup
+    restart: unless-stopped
+    volumes:
+      - ./pg-backup-data:/backups
+    env_file:
+      - .env
+    networks:
+      - postgres
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+networks:
+  postgres:
+    external: true

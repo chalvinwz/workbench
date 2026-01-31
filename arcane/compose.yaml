@@ -1,0 +1,26 @@
+services:
+  arcane:
+    image: ghcr.io/getarcaneapp/arcane:latest
+    container_name: arcane
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.arcane.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.arcane.entrypoints=web"
+      - "traefik.http.services.arcane.loadbalancer.server.port=3552"
+      - "traefik.docker.network=traefik"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./arcane-data:/app/data
+      - /root/docker:/app/data/projects
+    env_file:
+      - .env
+    networks:
+      - traefik
+      - postgres
+
+networks:
+  traefik:
+    external: true
+  postgres:
+    external: true

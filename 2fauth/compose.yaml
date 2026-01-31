@@ -1,0 +1,31 @@
+services:
+  2fauth:
+    image: 2fauth/2fauth:${TAG:-latest}
+    container_name: 2fauth
+    volumes:
+      - ./2fauth-data:/2fauth
+    env_file:
+      - .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mfa.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.mfa.entrypoints=web"
+      - "traefik.http.services.mfa.loadbalancer.server.port=8000"
+      - "traefik.docker.network=traefik"
+    networks:
+      - traefik
+      - postgres
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+networks:
+  traefik:
+    external: true
+  postgres:
+    external: true

@@ -1,0 +1,110 @@
+# ==================================================
+# Shared environment blocks
+# ==================================================
+x-db-env: &db_env
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_DB: ${POSTGRES_DB}
+
+x-rails-env: &rails_env
+  <<: *db_env
+  SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+  SELF_HOSTED: "true"
+  RAILS_FORCE_SSL: "false"
+  RAILS_ASSUME_SSL: "true"
+  DB_HOST: ${DB_HOST}
+  DB_PORT: ${DB_PORT}
+  REDIS_URL: ${REDIS_URL}
+  OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN}
+  APP_DOMAIN: ${APP_DOMAIN}
+
+# ==================================================
+# Services
+# ==================================================
+services:
+  server:
+    image: ghcr.io/we-promise/sure:stable
+    container_name: sure-server
+    restart: unless-stopped
+    volumes:
+      - ./sure-data:/rails/storage
+    environment:
+      <<: *rails_env
+    depends_on:
+      redis:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sure-web.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.sure-web.entrypoints=web"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.services.sure-web.loadbalancer.server.port=3000"
+    networks:
+      - sure
+      - traefik
+      - postgres
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+  worker:
+    image: ghcr.io/we-promise/sure:stable
+    container_name: sure-worker
+    command: bundle exec sidekiq
+    restart: unless-stopped
+    volumes:
+      - ./sure-data:/rails/storage
+    environment:
+      <<: *rails_env
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - sure
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+  redis:
+    image: redis:7-alpine
+    container_name: sure-kv
+    restart: unless-stopped
+    volumes:
+      - ./kv-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sure
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+# ==================================================
+# Networks
+# ==================================================
+networks:
+  sure:
+    name: sure
+    driver: bridge
+  traefik:
+    external: true
+  postgres:
+    external: true
