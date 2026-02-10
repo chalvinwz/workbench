@@ -1,3 +1,7 @@
+storage:
+  type: postgres
+  path: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"
+
 endpoints:
   # - name: mfa                 # Name of your endpoint, can be anything
   #   url: "https://sso.workbench.web.id"
