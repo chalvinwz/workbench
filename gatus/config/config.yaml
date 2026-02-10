@@ -19,7 +19,7 @@ endpoints:
     interval: 60s
     conditions:
       - "[STATUS] == 200"
-      - "[BODY] CONTAINS \"2FAuth up\""
+      - "[BODY] == men"
       - "[RESPONSE_TIME] < 800"
     alerts:
       - type: ntfy
