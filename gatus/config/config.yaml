@@ -2,27 +2,17 @@ storage:
   type: postgres
   path: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"
 
-endpoints:
-  - name: mfa
-    url: https://mfa.workbench.web.id/up
-    interval: 60s
-    conditions:
-      - "[STATUS] <= 299"
-      - "[BODY] == pat(*2FAuth up*)"
-    alerts:
-      - type: ntfy
-
 ui:
   link: "https://how.workbench.web.id"
   buttons:
     - name: "Logout"
-      link: "https://sso.workbench.web.id/api/oidc/end-session"
+      link: "${OIDC_ISSUER_URL}/api/oidc/end-session"
 
 alerting:
   ntfy:
-    topic: "gatus"
-    url: "https://ntfy.workbench.web.id"
-    token: "tk_o5p9maz44088i14no6txkobo1m9pc"
+    topic: ${NTFY_TOPIC}
+    url: ${NTFY_URL}
+    token: ${NTFY_TOKEN}
     click: "https://how.workbench.web.id"
     disable-firebase: true
     default-alert:
@@ -33,9 +23,9 @@ alerting:
 
 security:
   oidc:
-    issuer-url: "https://sso.workbench.web.id"
-    redirect-url: "https://how.workbench.web.id/authorization-code/callback"
-    client-id: "gatus"
-    client-secret: "oJ4vcoVp6gzfTqqPegevtGthgPPPgm4S"
+    issuer-url: ${OIDC_ISSUER_URL}
+    redirect-url: ${OIDC_REDIRECT_URL}
+    client-id: ${OIDC_CLIENT_ID}
+    client-secret: ${OIDC_CLIENT_SECRET}
     scopes: ["openid", "email", "profile", "groups"]
     session-ttl: 8h

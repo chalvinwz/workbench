@@ -1,0 +1,17 @@
+endpoints:
+  - name: mfa
+    url: https://mfa.workbench.web.id/up
+    interval: 60s
+    conditions:
+      - "[STATUS] <= 299"
+      - "[BODY] == pat(*2FAuth up*)"
+    alerts:
+      - type: ntfy
+  
+  - name: trxcker
+    url: https://trxcker.workbench.web.id
+    interval: 60s
+    conditions:
+      - "[STATUS] <= 299"
+    alerts:
+      - type: ntfy
