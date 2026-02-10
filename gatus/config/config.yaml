@@ -7,6 +7,7 @@ ui:
   buttons:
     - name: "Logout"
       link: "${OIDC_ISSUER_URL}/api/oidc/end-session"
+  custom-css: "body{background:#0b0f14;color:#e6f7ff} .navbar,.btn-primary{background:#01adff!important;border-color:#01adff!important} .card{border:1px solid #01adff33;border-radius:12px} a,.status-up{color:#01adff!important} .status-down{color:#ff4d4f!important}"
 
 alerting:
   ntfy:
