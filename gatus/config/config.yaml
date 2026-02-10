@@ -22,7 +22,7 @@ endpoints:
     url: https://mfa.workbench.web.id/up
     interval: 5s
     conditions:
-      - "[STATUS] == 400"
+      - "[STATUS] == 200"
     alerts:
       - type: ntfy
 
