@@ -25,6 +25,8 @@ endpoints:
       - "[STATUS] == 400"
     alerts:
       - type: ntfy
+        failure-threshold: 1
+        success-threshold: 1
 
 ui:
   link: "https://how.workbench.web.id"
@@ -42,8 +44,6 @@ alerting:
     default-alert:
       description: "Health check failed"
       send-on-resolved: true
-      failure-threshold: 1
-      success-threshold: 1
 
 security:
   oidc:
