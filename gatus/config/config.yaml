@@ -3,26 +3,12 @@ storage:
   path: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"
 
 endpoints:
-  # - name: mfa                 # Name of your endpoint, can be anything
-  #   url: "https://sso.workbench.web.id"
-  #   interval: 5m                  # Duration to wait between every status check (default: 60s)
-  #   conditions:
-  #     - "[STATUS] == 200"         # Status must be 200
-  #     - "[BODY].status == UP"     # The json path "$.status" must be equal to UP
-  #     - "[RESPONSE_TIME] < 300"   # Response time must be under 300ms
-
-  - name: make-sure-header-is-rendered
-    url: "https://example.org/"
-    interval: 60s
-    conditions:
-      - "[STATUS] == 200"                          # Status must be 200
-      - "[BODY] == pat(*<h1>Example Domain</h1>*)" # Body must contain the specified header
-  
   - name: mfa
     url: https://mfa.workbench.web.id/up
-    interval: 5s
+    interval: 60s
     conditions:
-      - "[STATUS] == 200"
+      - "[STATUS] <= 299"
+      - "[BODY] == pat(*2FAuth up*)"
     alerts:
       - type: ntfy
 
