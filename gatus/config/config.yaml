@@ -7,7 +7,71 @@ ui:
   buttons:
     - name: "Logout"
       link: "${OIDC_ISSUER_URL}/api/oidc/end-session"
-  custom-css: "body{background:#0b0f14;color:#e6f7ff} .navbar,.btn-primary{background:#01adff!important;border-color:#01adff!important} .card{border:1px solid #01adff33;border-radius:12px} a,.status-up{color:#01adff!important} .status-down{color:#ff4d4f!important}"
+  custom-css: |
+    /* Base dark background */
+    #global {
+      background-color: #0d1117;
+      color: #c9d1d9;
+    }
+
+    .dashboard-container {
+      background-color: #161b22;
+    }
+
+    /* Card / group styling */
+    .endpoint, .endpoint-group {
+      background-color: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .endpoint-header, .endpoint-group-header {
+      background-color: #1f2937;
+      color: #ffffff;
+      border-bottom: 1px solid #30363d;
+    }
+
+    /* Accent color: #01adff for UP status, links, hover effects */
+    .status-up, .badge-up {
+      background-color: #01adff !important;
+      color: #0d1117 !important;  /* dark text for contrast */
+    }
+
+    .status-up .icon {
+      color: #01adff;
+    }
+
+    a, a:hover, a:focus {
+      color: #01adff;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #4dc3ff;  /* lighter variant on hover */
+    }
+
+    /* Progress bars / healthy indicators */
+    .progress-bar-success {
+      background-color: #01adff;
+    }
+
+    /* Optional: subtle glow/hover on cards */
+    .endpoint:hover, .endpoint-group:hover {
+      border-color: #01adff;
+      box-shadow: 0 0 15px rgba(1, 173, 255, 0.25);
+    }
+
+    /* Buttons or other elements if present */
+    button, .btn-primary {
+      background-color: #01adff;
+      border-color: #01adff;
+      color: #0d1117;
+    }
+
+    button:hover {
+      background-color: #4dc3ff;
+    }
 
 alerting:
   ntfy:
