@@ -36,6 +36,6 @@ endpoints:
     url: http://traefik:80/ping
     interval: 60s
     conditions:
-      - "[STATUS] <= 299"
+      - "[STATUS] == 404"
     alerts:
       - type: ntfy
