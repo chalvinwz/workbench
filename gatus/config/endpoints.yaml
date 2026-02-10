@@ -15,3 +15,27 @@ endpoints:
       - "[STATUS] <= 299"
     alerts:
       - type: ntfy
+  
+  - name: postgres
+    url: tcp://postgres:5432
+    interval: 60s
+    conditions:
+      - "[CONNECTED] == true"
+    alerts:
+      - type: ntfy
+
+  - name: prometheus
+    url: http://prometheus:9090/-/healthy
+    interval: 60s
+    conditions:
+      - "[STATUS] <= 299"
+    alerts:
+      - type: ntfy
+
+  - name: traefik
+    url: http://traefik:80/ping
+    interval: 60s
+    conditions:
+      - "[STATUS] <= 299"
+    alerts:
+      - type: ntfy

@@ -10,6 +10,7 @@ services:
     networks:
       - traefik
       - postgres
+      - monitoring
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.uptime-kuma.rule=Host(`${DOMAIN_NAME}`)"
@@ -21,4 +22,6 @@ networks:
   traefik:
     external: true
   postgres:
+    external: true
+  monitoring:
     external: true
