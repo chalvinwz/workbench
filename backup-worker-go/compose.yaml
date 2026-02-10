@@ -1,0 +1,25 @@
+services:
+  backup-worker-go:
+    image: chalvinwz/backup-worker-go:latest
+    container_name: backup-worker-go
+    user: root
+    env_file:
+      - .env
+    networks:
+      - traefik
+    volumes:
+      - /root/docker:/docker:ro
+      - /root/docker/pg-backup/pg-backup-data/daily:/backups/daily:ro
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+networks:
+  traefik:
+    external: true

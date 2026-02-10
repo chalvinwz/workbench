@@ -1,0 +1,30 @@
+endpoints:
+  - name: website                 # Name of your endpoint, can be anything
+    url: "https://twin.sh/health"
+    interval: 5m                  # Duration to wait between every status check (default: 60s)
+    conditions:
+      - "[STATUS] == 200"         # Status must be 200
+      - "[BODY].status == UP"     # The json path "$.status" must be equal to UP
+      - "[RESPONSE_TIME] < 300"   # Response time must be under 300ms
+
+  - name: make-sure-header-is-rendered
+    url: "https://example.org/"
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"                          # Status must be 200
+      - "[BODY] == pat(*<h1>Example Domain</h1>*)" # Body must contain the specified header
+
+ui:
+  link: "https://how.workbench.web.id"
+  buttons:
+    - name: "Logout"
+      link: "https://sso.workbench.web.id/api/oidc/end-session"
+
+security:
+  oidc:
+    issuer-url: "https://sso.workbench.web.id"
+    redirect-url: "https://how.workbench.web.id/authorization-code/callback"
+    client-id: "gatus"
+    client-secret: "oJ4vcoVp6gzfTqqPegevtGthgPPPgm4S"
+    scopes: ["openid", "email", "profile", "groups"]
+    session-ttl: 8h

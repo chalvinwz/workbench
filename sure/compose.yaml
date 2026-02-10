@@ -18,6 +18,16 @@ x-rails-env: &rails_env
   OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN}
   APP_DOMAIN: ${APP_DOMAIN}
 
+  AUTH_PROVIDERS_SOURCE: ${AUTH_PROVIDERS_SOURCE}
+  AUTH_LOCAL_LOGIN_ENABLED: ${AUTH_LOCAL_LOGIN_ENABLED}
+  AUTH_LOCAL_ADMIN_OVERRIDE_ENABLED: ${AUTH_LOCAL_ADMIN_OVERRIDE_ENABLED}
+
+  OIDC_ISSUER: ${OIDC_ISSUER}
+  OIDC_CLIENT_ID: ${OIDC_CLIENT_ID}
+  OIDC_CLIENT_SECRET: ${OIDC_CLIENT_SECRET}
+  OIDC_REDIRECT_URI: ${OIDC_REDIRECT_URI}
+  DOMAIN_NAME: ${DOMAIN_NAME}
+
 # ==================================================
 # Services
 # ==================================================
@@ -66,6 +76,7 @@ services:
         condition: service_healthy
     networks:
       - sure
+      - postgres
     deploy:
       resources:
         limits:
