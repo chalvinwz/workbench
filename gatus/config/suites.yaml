@@ -17,7 +17,7 @@
 suites:
   - name: test
     endpoints:
-      - name: mfa
+      - name: mfa suite
         url: https://mfa.workbench.web.id/up
         interval: 60s
         conditions:
