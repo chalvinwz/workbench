@@ -1,15 +1,15 @@
 suites:
-  name: arcane
-  interval: 10s
-  context: 
-    api-key: arc_299f1b5540f9b4b4a9365449b64312487fd3e12a95c330b381cc89854fddeef2
-  endpoints:
-    - name: list user
-      url: https://docker.workbench.web.id/api/users
-      method: GET
-      headers:
-        X-Api-Key: "[CONTEXT].api-key"
-      conditions:
-        - "[STATUS] == 200"
-      store:
-        body: "[BODY]"
+  - name: arcane
+    interval: 10s
+    context: 
+      api-key: arc_299f1b5540f9b4b4a9365449b64312487fd3e12a95c330b381cc89854fddeef2
+    endpoints:
+      - name: list user
+        url: https://docker.workbench.web.id/api/users
+        method: GET
+        headers:
+          X-Api-Key: "[CONTEXT].api-key"
+        conditions:
+          - "[STATUS] == 200"
+        store:
+          body: "[BODY]"
