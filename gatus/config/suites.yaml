@@ -21,17 +21,11 @@ suites:
     context:
       price: "19.99"  # Initial static value in context
     endpoints:
-      # Step 1: Create an item and store the item ID
-      - name: create-item
-        url: https://api.example.com/items
-        method: POST
-        body: '{"name": "Test Item", "price": "[CONTEXT].price"}'
-        conditions:
-          - "[STATUS] == 201"
-          - "len([BODY].id) > 0"
-          - "[BODY].price == [CONTEXT].price"
-        store:
-          itemId: "[BODY].id"
-        alerts:
-          - type: slack
-            description: "Failed to create item"
+        - name: mfa
+          url: https://mfa.workbench.web.id/up
+          interval: 60s
+          conditions:
+            - "[STATUS] <= 299"
+            - "[BODY] == pat(*2FAuth up*)"
+          alerts:
+            - type: ntfy
