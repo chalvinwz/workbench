@@ -15,7 +15,6 @@ suites:
     endpoints:
       - name: google
         url: https://www.google.com
-        method: GET
         conditions:
           - "[STATUS] == 200"
         alerts:
