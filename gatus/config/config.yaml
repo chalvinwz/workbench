@@ -11,13 +11,13 @@ ui:
 suites:
   - name: basic-test
     group: basic
-    interval: 60s
+    interval: 10s
     endpoints:
       - name: google
         url: https://www.google.com
         method: GET
         conditions:
-          - "[STATUS] == 200"
+          - "[STATUS] == 300"
         alerts:
           - type: ntfy
 
