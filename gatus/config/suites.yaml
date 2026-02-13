@@ -15,17 +15,13 @@
 #           body: "[BODY]"
 
 suites:
-  - name: item-crud-workflow
-    group: api-tests
-    interval: 5m
-    context:
-      price: "19.99"  # Initial static value in context
+  - name: test
     endpoints:
-        - name: mfa
-          url: https://mfa.workbench.web.id/up
-          interval: 60s
-          conditions:
-            - "[STATUS] <= 299"
-            - "[BODY] == pat(*2FAuth up*)"
-          alerts:
-            - type: ntfy
+      - name: mfa
+        url: https://mfa.workbench.web.id/up
+        interval: 60s
+        conditions:
+          - "[STATUS] <= 299"
+          - "[BODY] == pat(*2FAuth up*)"
+        alerts:
+          - type: ntfy
