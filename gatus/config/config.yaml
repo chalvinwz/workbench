@@ -17,7 +17,7 @@ suites:
         url: https://www.google.com
         method: GET
         conditions:
-          - "[STATUS] == 300"
+          - "[STATUS] == 200"
         alerts:
           - type: ntfy
 
