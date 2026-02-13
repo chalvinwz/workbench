@@ -1,15 +1,37 @@
+# suites:
+#   - name: arcane
+#     interval: 10s
+#     context: 
+#       api-key: arc_299f1b5540f9b4b4a9365449b64312487fd3e12a95c330b381cc89854fddeef2
+#     endpoints:
+#       - name: list user
+#         url: https://docker.workbench.web.id/api/users
+#         method: GET
+#         headers:
+#           X-Api-Key: "[CONTEXT].api-key"
+#         conditions:
+#           - "[STATUS] == 200"
+#         store:
+#           body: "[BODY]"
+
 suites:
-  - name: arcane
-    interval: 10s
-    context: 
-      api-key: arc_299f1b5540f9b4b4a9365449b64312487fd3e12a95c330b381cc89854fddeef2
+  - name: item-crud-workflow
+    group: api-tests
+    interval: 5m
+    context:
+      price: "19.99"  # Initial static value in context
     endpoints:
-      - name: list user
-        url: https://docker.workbench.web.id/api/users
-        method: GET
-        headers:
-          X-Api-Key: "[CONTEXT].api-key"
+      # Step 1: Create an item and store the item ID
+      - name: create-item
+        url: https://api.example.com/items
+        method: POST
+        body: '{"name": "Test Item", "price": "[CONTEXT].price"}'
         conditions:
-          - "[STATUS] == 200"
+          - "[STATUS] == 201"
+          - "len([BODY].id) > 0"
+          - "[BODY].price == [CONTEXT].price"
         store:
-          body: "[BODY]"
+          itemId: "[BODY].id"
+        alerts:
+          - type: slack
+            description: "Failed to create item"
