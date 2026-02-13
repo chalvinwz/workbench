@@ -26,11 +26,4 @@
 #         alerts:
 #           - type: ntfy
 
-suites:
-  - name: basic-test
-    interval: 60s
-    endpoints:
-      - name: google
-        url: https://www.google.com
-        conditions:
-          - "[STATUS] == 200"
+

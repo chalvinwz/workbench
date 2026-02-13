@@ -8,6 +8,19 @@ ui:
     - name: "Logout"
       link: "${OIDC_ISSUER_URL}/api/oidc/end-session"
 
+suites:
+  - name: basic-test
+    group: basic
+    interval: 60s
+    endpoints:
+      - name: google
+        url: https://www.google.com
+        method: GET
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: ntfy
+
 alerting:
   ntfy:
     topic: ${NTFY_TOPIC}
