@@ -1,3 +1,3 @@
 # Workbench
 
-Personal docker compose
+Personal docker compose used for my personal workflow
